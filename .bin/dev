@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -a
+source ${ENV_FILE:-.env}
+set +a
+
+docker compose --project-name=$IMAGE_NAME \
+  -f docker-compose.yml \
+  "$@"
