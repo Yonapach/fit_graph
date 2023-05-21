@@ -3,8 +3,8 @@ version: '3.8'
 services:
 
   back:
+    container_name: ${IMAGE_NAME}-back
     image: ${IMAGE_NAME}:${IMAGE_TAG}
-    container_name: fit_graph-back
     build:
       dockerfile: Dockerfile
       context: ./deploy
@@ -12,9 +12,10 @@ services:
         BASE_IMAGE: ${BASE_IMAGE}
     env_file:
       - ./.env
-    networks: [ default ]
     volumes:
       - ./back:/app
-      - ./deploy/gunicorn.py:/gunicorn.py
-    ports: [ "5000:5000" ]
-    command: gunicorn -c /gunicorn.py main:app
+      - ./logs:/logs
+      # - ./deploy/gunicorn.py:/gunicorn.py
+    working_dir: /app
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 5000
+    # command: gunicorn -c /gunicorn.py main:app
