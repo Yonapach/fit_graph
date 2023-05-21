@@ -1,0 +1,11 @@
+server {
+    listen 5000 default;
+
+    location /api/ {
+        proxy_pass http://back:5000/;
+    }
+
+    location / {
+        proxy_pass http://front:3000;
+    }
+}
