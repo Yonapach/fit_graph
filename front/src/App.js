@@ -5,6 +5,7 @@ import { createTheme } from "@mui/material/styles";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
+import SignIn from "./scenes/sign_in";
 
 function App() {
   const [isSidebar, setIsSidebar] = useState(true);
@@ -20,6 +21,7 @@ function App() {
           <Topbar setIsSidebar={setIsSidebar} />
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/sign_in" element={<SignIn />} />
           </Routes>
         </main>
       </div>
