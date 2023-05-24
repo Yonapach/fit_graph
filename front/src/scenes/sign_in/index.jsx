@@ -1,3 +1,4 @@
+import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -14,10 +15,31 @@ const SignIn = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    axios
+      .post(
+        "/api/auth/token",
+        {
+          username: data.get("email"),
+          password: data.get("password"),
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        // выполняется всегда
+      });
   };
 
   return (
