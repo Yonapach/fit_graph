@@ -1,6 +1,20 @@
-version: '3.8'
+version: "3.8"
+
+volumes:
+  db:
+    driver: local
 
 services:
+  db:
+    container_name: ${IMAGE_NAME}-db
+    image: postgres:15
+    restart: no
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports: ["5432:5432"]
+    volumes:
+      - ./deploy/db_data:/var/lib/postgresql/data
 
   back:
     container_name: ${IMAGE_NAME}-back
@@ -16,7 +30,7 @@ services:
       - ./back:/app
       - ./logs:/logs
       # - ./deploy/gunicorn.py:/gunicorn.py
-    ports: [ "5000:5000" ]
+    ports: ["5000:5000"]
     working_dir: /app
     command: uvicorn main:app --reload --host 0.0.0.0 --port 5000
     # command: gunicorn -c /gunicorn.py main:app
@@ -29,9 +43,8 @@ services:
     working_dir: /app
     volumes:
       - ./front:/app
-    ports: [ "3000:3000" ]
+    ports: ["3000:3000"]
     command: sleep infinity
-#    command: npm start
 
 #  nginx:
 #    container_name: ${IMAGE_NAME}-nginx
